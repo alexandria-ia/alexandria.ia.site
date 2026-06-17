@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-deep: #05070B;
+  --color-bg-alt: #0A0F18;
+  --color-accent: #D4AF5A;
+  --color-accent-light: #E7C879;
+  --color-accent-dark: #8C6A2A;
+  --color-accent-soft: rgba(212, 175, 90, 0.15);
+  --color-accent-glow: rgba(212, 175, 90, 0.25);
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-card: rgba(255, 255, 255, 0.08);
+  --color-text-primary: rgba(255, 255, 255, 0.92);
+  --color-text-secondary: #9EA5B3;
+  --color-text-muted: rgba(255, 255, 255, 0.25);
+  --color-imperial-red: #6B1010;
+  --color-space-blue: #091A2E;
+  
+  --font-sans: 'Inter', var(--font-sans);
+  --font-rework: var(--font-marcellus), serif;
+  
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  
+  --animate-float-slow: float-slow 14s infinite ease-in-out;
+  --animate-float-medium: float-medium 9s infinite ease-in-out;
+  --animate-float-fast: float-fast 18s infinite ease-in-out;
+  --animate-spin-clockwise: spin-clockwise 45s linear infinite;
+  --animate-spin-counter: spin-counter-clockwise 55s linear infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(1deg); }
+}
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-1.5deg); }
+}
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(0.8deg); }
+}
+@keyframes spin-clockwise {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+@keyframes spin-counter-clockwise {
+  0% { transform: rotateZ(360deg); }
+  100% { transform: rotateZ(0deg); }
+}
+@keyframes connection-flow {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes pulse-status {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer-gold {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.shimmer-gold-text {
+  background: linear-gradient(90deg, #D4AF5A 0%, #FFF2CC 25%, #E7C879 50%, #8C6A2A 75%, #D4AF5A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-gold 7s linear infinite;
+  text-shadow: 0 0 40px rgba(212, 175, 90, 0.15);
+}
+
+:root {
+  --background: #05070B;
+  --foreground: rgba(255, 255, 255, 0.92);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Blueprint grid background layer */
+.blueprint-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px),
+    linear-gradient(rgba(201, 165, 90, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 165, 90, 0.012) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #05070B;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Blueprint crosshairs */
+.bp-cross {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  color: rgba(201, 165, 90, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+.bp-cross::before, .bp-cross::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+.bp-cross::before {
+  top: 5px; left: 0; right: 0; height: 1px;
+}
+.bp-cross::after {
+  left: 5px; top: 0; bottom: 0; width: 1px;
+}
+.bp-cross-tl { top: 24px; left: 24px; }
+.bp-cross-tr { top: 24px; right: 24px; }
+.bp-cross-bl { bottom: 24px; left: 24px; }
+.bp-cross-br { bottom: 24px; right: 24px; }
+
