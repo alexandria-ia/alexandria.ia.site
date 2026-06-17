@@ -265,7 +265,7 @@ export default function AdminPage() {
               ALEXANDRIA GATE
             </h2>
             <p className="text-[12px] text-text-secondary mt-1">
-              Chave de Acesso Admin Necessária
+              Chave de Acesso Necessária
             </p>
           </div>
 
