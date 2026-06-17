@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useConfigStore, Transaction } from '@/stores/config-store';
 import { 
-  Lock, Settings, ShieldAlert, Key, Globe, 
+  Lock, Settings, Key, Globe, 
   Database, RefreshCw, Layers, CheckCircle, 
   Play, Cpu, Trash2, Eye, EyeOff 
 } from 'lucide-react';
@@ -296,11 +296,7 @@ export default function AdminPage() {
             </button>
           </form>
 
-          {/* Hint */}
-          <div className="flex items-center gap-1.5 justify-center text-[10px] text-text-muted mt-6 font-mono border-t border-border-subtle pt-4">
-            <ShieldAlert size={12} />
-            <span>DEV HINT: alexandria_admin_2026</span>
-          </div>
+
         </motion.div>
       </div>
     );
