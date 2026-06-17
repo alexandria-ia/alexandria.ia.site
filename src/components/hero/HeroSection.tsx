@@ -24,14 +24,7 @@ export default function HeroSection() {
       <OrbitalRings />
       <FloatingBadges />
 
-      {/* Greco-Roman statue tech sketch (Neptune/Atlas style) */}
-      <div 
-        className="absolute right-0 top-[10%] w-full lg:w-[50%] h-[80%] max-w-[700px] z-0 pointer-events-none opacity-[0.06] lg:opacity-[0.22] mix-blend-screen select-none bg-[url('/hero_statue.png')] bg-no-repeat bg-contain bg-right"
-        style={{
-          maskImage: 'linear-gradient(to left, black 40%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to left, black 40%, transparent 100%)',
-        }}
-      />
+
 
       {/* Hero Content */}
       <div className="relative max-w-[800px] w-full text-center mx-auto z-20 flex flex-col items-center justify-center">

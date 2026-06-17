@@ -64,6 +64,15 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
       <div className="bp-cross bp-cross-bl" />
       <div className="bp-cross bp-cross-br" />
 
+      {/* Greco-Roman statue tech sketch (Neptune/Atlas style) */}
+      <div 
+        className="absolute left-0 bottom-0 w-full md:w-[45%] h-[85%] max-w-[500px] z-0 pointer-events-none opacity-[0.05] md:opacity-[0.14] mix-blend-screen select-none bg-[url('/hero_statue.png')] bg-no-repeat bg-contain bg-left bg-bottom"
+        style={{
+          maskImage: 'linear-gradient(to right, black 25%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 25%, transparent 100%)',
+        }}
+      />
+
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <div className="text-accent text-[10px] font-semibold tracking-[0.22em] uppercase mb-4">
