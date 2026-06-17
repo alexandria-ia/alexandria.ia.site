@@ -1,12 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import OrbitalRings from './OrbitalRings';
 import FloatingBadges from './FloatingBadges';
 import GlowOrbs from './GlowOrbs';
 
 export default function HeroSection() {
+  const sloganText = "CONHECIMENTO, INTELIGÊNCIA, ETERNITY.";
+  const [displayedSlogan, setDisplayedSlogan] = useState('');
+  const [typingComplete, setTypingComplete] = useState(false);
+
+  useEffect(() => {
+    let index = 0;
+    const startTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setDisplayedSlogan((prev) => prev + sloganText.charAt(index));
+        index++;
+        if (index >= sloganText.length) {
+          clearInterval(interval);
+          setTypingComplete(true);
+        }
+      }, 55); // 55ms per character
+      return () => clearInterval(interval);
+    }, 500);
+
+    return () => clearTimeout(startTimeout);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-28 md:py-36 overflow-hidden">
       {/* Background Image Layer */}
@@ -33,9 +54,12 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="inline-block text-[10px] font-semibold tracking-[0.22em] text-accent uppercase mb-6 px-4 py-1.5 border border-accent-soft rounded-full bg-accent-soft/30"
+          className="inline-flex items-center justify-center text-[10px] font-semibold tracking-[0.22em] text-accent uppercase mb-6 px-4 py-1.5 border border-accent-soft rounded-full bg-accent-soft/30 min-h-[30px]"
         >
-          CONHECIMENTO, INTELIGÊNCIA, ETERNITY.
+          <span>{displayedSlogan}</span>
+          {!typingComplete && (
+            <span className="inline-block w-[1.5px] h-[9px] bg-accent ml-1.5 animate-pulse" />
+          )}
         </motion.div>
 
         {/* Title */}
