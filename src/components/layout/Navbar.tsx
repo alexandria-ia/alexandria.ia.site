@@ -12,15 +12,28 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Recursos', href: '/#features' },
     { name: 'Planos', href: '/#pricing' },
-    { name: 'Afiliados', href: '/#affiliates' },
     { name: 'Base de Dados', href: '/database' },
-    { name: 'Admin', href: '/admin' },
+    { name: 'Membros', href: '/members' },
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
-    if (href.startsWith('/#')) return pathname === '/';
+    if (href.includes('#')) return false;
     return pathname === href;
+  };
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      const parts = href.split('#');
+      const targetId = parts[parts.length - 1];
+      if (pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        setMobileMenuOpen(false);
+      }
+    }
   };
 
   return (
@@ -30,7 +43,7 @@ export default function Navbar() {
           href="/"
           className="font-rework font-extrabold text-[15px] tracking-[0.1em] text-accent hover:opacity-80 transition-opacity uppercase scale-y-[0.85] origin-center before:content-['['] before:mr-1 before:text-text-muted after:content-[']'] after:ml-1 after:text-text-muted"
         >
-          Alexandria.ia
+          alexandria-tech
         </Link>
 
         {/* Desktop Links */}
@@ -39,6 +52,7 @@ export default function Navbar() {
             <li key={link.name}>
               <Link
                 href={link.href}
+                onClick={(e) => handleScroll(e, link.href)}
                 className={`text-[12px] font-medium tracking-[0.04em] uppercase transition-colors relative py-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left after:transition-transform after:duration-300 ${
                   isActive(link.href) ? 'text-accent font-semibold after:scale-x-100' : 'text-text-secondary hover:text-text-primary'
                 }`}
@@ -53,6 +67,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/#pricing"
+            onClick={(e) => handleScroll(e, '/#pricing')}
             className="text-[12px] font-semibold tracking-[0.04em] uppercase bg-accent hover:bg-accent-light text-bg-deep border border-accent-light/10 px-5 py-2 rounded-full transition-colors"
           >
             Assinar
@@ -75,7 +90,7 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleScroll(e, link.href)}
               className={`text-[13px] font-medium tracking-[0.04em] uppercase py-1 ${
                 isActive(link.href) ? 'text-accent font-semibold' : 'text-text-secondary hover:text-text-primary'
               }`}
@@ -85,7 +100,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/#pricing"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={(e) => handleScroll(e, '/#pricing')}
             className="text-[13px] font-semibold tracking-[0.04em] uppercase bg-accent text-bg-deep py-2.5 rounded-full text-center hover:bg-accent-light mt-2 transition-colors"
           >
             Assinar

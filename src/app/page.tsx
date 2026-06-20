@@ -11,7 +11,6 @@ import HeroSection from '@/components/hero/HeroSection';
 import StatsBar from '@/components/sections/StatsBar';
 import FeaturesGrid from '@/components/sections/FeaturesGrid';
 import PricingSection from '@/components/sections/PricingSection';
-import AffiliateSection from '@/components/sections/AffiliateSection';
 import CheckoutModal from '@/components/sections/CheckoutModal';
 import { useConfigStore } from '@/stores/config-store';
 
@@ -23,6 +22,28 @@ export default function Home() {
 
   useEffect(() => {
     store.fetchConfig();
+
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        localStorage.setItem('alexandria_referrer', ref);
+        fetch(`/api/affiliates/click?code=${ref}`).catch((err) =>
+          console.error('Erro ao registrar click de afiliado:', err)
+        );
+      }
+
+      // Smooth scroll if landing with hash or after page mount
+      if (window.location.hash) {
+        const targetId = window.location.hash.substring(1);
+        setTimeout(() => {
+          const element = document.getElementById(targetId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    }
   }, []);
 
   const handleSelectPlan = (planName: string, price: number) => {
@@ -53,8 +74,6 @@ export default function Home() {
         <div className="relative w-[1px] h-[70px] border-l border-dashed border-white/12 mx-auto z-10" />
         
         <PricingSection onSelectPlan={handleSelectPlan} />
-        
-        <AffiliateSection />
       </main>
 
       <Footer />

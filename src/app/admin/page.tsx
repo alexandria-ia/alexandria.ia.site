@@ -15,7 +15,9 @@ export default function AdminPage() {
   const [hydrated, setHydrated] = useState(false);
 
   // Security Gate
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [loginError, setLoginError] = useState(false);
 
@@ -104,7 +106,7 @@ export default function AdminPage() {
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ username, password, token })
       });
 
       if (response.ok) {
@@ -115,11 +117,13 @@ export default function AdminPage() {
       } else {
         setLoginError(true);
         setPassword('');
+        setToken('');
       }
     } catch (err) {
       console.error(err);
       setLoginError(true);
       setPassword('');
+      setToken('');
     }
   };
 
@@ -127,7 +131,9 @@ export default function AdminPage() {
     try {
       await fetch('/api/admin/auth', { method: 'DELETE' });
       setIsAuthorized(false);
+      setUsername('');
       setPassword('');
+      setToken('');
       addConsoleLog('Sessão encerrada no servidor e cookie de sessão limpo.');
     } catch (err) {
       console.error(err);
@@ -182,7 +188,7 @@ export default function AdminPage() {
     addConsoleLog(`Disparando simulador de webhook Pix para transação: ${tx.id}`);
     
     const payload = {
-      event: 'billing.status.changed',
+      event: 'checkout.completed',
       data: {
         id: tx.id,
         status: 'PAID',
@@ -271,19 +277,46 @@ export default function AdminPage() {
 
           {/* Form */}
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-3">
+              {/* Username Input */}
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder="USUÁRIO"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={`w-full bg-black/40 border ${loginError ? 'border-red-500' : 'border-border-card'} focus:border-accent rounded-[8px] py-3 px-4 text-center font-mono text-[12px] text-text-primary tracking-[0.1em] outline-none placeholder:tracking-normal placeholder:text-[11px] placeholder:text-text-muted transition-colors`}
+                  required
+                />
+              </div>
+
+              {/* Password Input */}
               <div className="relative flex items-center">
                 <input
                   type="password"
-                  placeholder="DIGITE A CHAVE ADMINISTRATIVA"
+                  placeholder="SENHA"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full bg-black/40 border ${loginError ? 'border-red-500' : 'border-border-card'} focus:border-accent rounded-[8px] py-3 px-4 text-center font-mono text-[12px] text-text-primary tracking-[0.25em] outline-none placeholder:tracking-normal placeholder:text-[11px] placeholder:text-text-muted transition-colors`}
+                  className={`w-full bg-black/40 border ${loginError ? 'border-red-500' : 'border-border-card'} focus:border-accent rounded-[8px] py-3 px-4 text-center font-mono text-[12px] text-text-primary tracking-[0.1em] outline-none placeholder:tracking-normal placeholder:text-[11px] placeholder:text-text-muted transition-colors`}
+                  required
                 />
               </div>
+
+              {/* Token Input */}
+              <div className="relative flex items-center">
+                <input
+                  type="password"
+                  placeholder="TOKEN (SHA-256)"
+                  value={token}
+                  onChange={(e) => setToken(e.target.value)}
+                  className={`w-full bg-black/40 border ${loginError ? 'border-red-500' : 'border-border-card'} focus:border-accent rounded-[8px] py-3 px-4 text-center font-mono text-[12px] text-text-primary tracking-[0.1em] outline-none placeholder:tracking-normal placeholder:text-[11px] placeholder:text-text-muted transition-colors`}
+                  required
+                />
+              </div>
+
               {loginError && (
                 <span className="text-[10px] text-red-500 font-semibold tracking-wider text-center mt-1 uppercase">
-                  Chave inválida. Tente novamente.
+                  Credenciais inválidas. Tente novamente.
                 </span>
               )}
             </div>
@@ -312,7 +345,7 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/" className="text-accent hover:opacity-85 font-rework font-extrabold tracking-widest text-[14px] uppercase scale-y-[0.85] origin-left">
-              [ ALEXANDRIA.IA ]
+              [ alexandria-tech ]
             </Link>
             <span className="text-text-muted">/</span>
             <span className="text-[11px] font-semibold tracking-widest text-text-secondary uppercase">ADMIN TELEMETRIA</span>

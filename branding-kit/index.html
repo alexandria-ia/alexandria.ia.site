@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>alexandria-tech — Branding Book & Full Design System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Design Tokens */
+    :root {
+      --bg-deep: #05070B;
+      --bg-alt: #0A0F18;
+      --accent: #D4AF5A;
+      --accent-light: #E7C879;
+      --accent-dark: #8C6A2A;
+      --accent-soft: rgba(212, 175, 90, 0.12);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --text-primary: rgba(255, 255, 255, 0.92);
+      --text-secondary: #9EA5B3;
+      --text-muted: rgba(255, 255, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Blueprint grid background */
+    .blueprint-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+        linear-gradient(rgba(212, 175, 90, 0.008) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 90, 0.008) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 30px;
+      margin-bottom: 50px;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    h1 {
+      font-family: 'Marcellus', serif;
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transform: scaleY(0.85);
+      transform-origin: left;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-w: 600px;
+    }
+
+    .section-title {
+      font-family: 'Marcellus', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title span {
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    /* Grid Layout for Brand system */
+    .brand-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    @media (min-width: 768px) {
+      .brand-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    /* Technical corners */
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      color: rgba(212, 175, 90, 0.25);
+    }
+    .card::before {
+      top: 10px; left: 10px;
+      border-top: 1px solid currentColor;
+      border-left: 1px solid currentColor;
+    }
+    .card::after {
+      bottom: 10px; right: 10px;
+      border-bottom: 1px solid currentColor;
+      border-right: 1px solid currentColor;
+    }
+
+    /* Component System Layout */
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    @media (min-width: 992px) {
+      .workspace {
+        grid-template-columns: 280px 1fr;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-alt);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 16px;
+      max-height: 700px;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-category {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-category-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      padding-left: 8px;
+      display: block;
+    }
+
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-item {
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sidebar-item:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .sidebar-item.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(212, 175, 90, 0.25);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Preview area */
+    .preview-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .preview-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      min-h: 300px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Code showcase */
+    .code-box {
+      background: #000;
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--accent);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .code-header {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Embedded Component Elements Styles */
+    .btn {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 24px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: opacity 0.2s, background-color 0.2s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-deep);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border-card);
+      color: var(--text-secondary);
+    }
+
+    .btn-primary:hover, .btn-outline:hover, .btn-ghost:hover {
+      opacity: 0.9;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 13px;
+      color: #fff;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #22c55e;
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 24px;
+      border-radius: 99px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Autocomplete list styling */
+    .autocomplete-list {
+      background: var(--bg-alt);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      padding: 6px;
+      margin-top: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: absolute;
+      width: 100%;
+      z-index: 50;
+    }
+
+    .autocomplete-item {
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .autocomplete-item:hover {
+      background: rgba(255,255,255,0.03);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blueprint-grid"></div>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <span class="tag">// Interactive Branding Book</span>
+      <h1>alexandria-tech</h1>
+      <p class="subtitle">
+        Manual consolidado de design e biblioteca completa com todos os 58 componentes de interface isolados para compartilhamento.
+      </p>
+    </header>
+
+    <!-- 1. Branding Layout -->
+    <section class="brand-grid">
+      <div class="card">
+        <h3 style="color: #fff; font-size: 14px; text-transform: uppercase; margin-bottom: 12px; font-family: 'Marcellus', serif;">Visão Geral</h3>
+        <p>
+          O alexandria-tech representa o cruzamento entre a sabedoria clássica da antiguidade e a computação moderna de alto desempenho. O design reflete um ambiente blueprint escuro decorado com linhas técnicas e miras, pontuado por realces dourados.
+        </p>
+      </div>
+      <div class="card">
+        <h3 style="color: #fff; font-size: 14px; text-transform: uppercase; margin-bottom: 12px; font-family: 'Marcellus', serif;">Branding Book Mockup</h3>
+        <div style="text-align: center;">
+          <img src="branding_book_mockup.png" alt="Branding Book alexandria-tech" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px;">
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Interactive Component System -->
+    <section>
+      <h2 class="section-title">02 <span>// BIBLIOTECA INTERATIVA DE COMPONENTES (58)</span></h2>
+      
+      <div class="workspace">
+        
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+          <div class="sidebar-header">Categorias</div>
+          
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Fundamentos</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Cores')">Cores</button>
+              <button class="sidebar-item" onclick="selectComp('Tipografia')">Tipografia</button>
+              <button class="sidebar-item" onclick="selectComp('Raio e Espaco')">Raio e Espaco</button>
+              <button class="sidebar-item" onclick="selectComp('Elevacao')">Elevacao</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Ações</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item active" onclick="selectComp('Button')">Button</button>
+              <button class="sidebar-item" onclick="selectComp('Button Group')">Button Group</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Formulários</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Input')">Input</button>
+              <button class="sidebar-item" onclick="selectComp('Number Input')">Number Input</button>
+              <button class="sidebar-item" onclick="selectComp('Textarea')">Textarea</button>
+              <button class="sidebar-item" onclick="selectComp('Input OTP')">Input OTP</button>
+              <button class="sidebar-item" onclick="selectComp('Checkbox')">Checkbox</button>
+              <button class="sidebar-item" onclick="selectComp('Radio Group')">Radio Group</button>
+              <button class="sidebar-item" onclick="selectComp('Switch')">Switch</button>
+              <button class="sidebar-item" onclick="selectComp('Select')">Select</button>
+              <button class="sidebar-item" onclick="selectComp('Autocomplete')">Autocomplete</button>
+              <button class="sidebar-item" onclick="selectComp('Slider')">Slider</button>
+              <button class="sidebar-item" onclick="selectComp('Form completo')">Form completo</button>
+              <button class="sidebar-item" onclick="selectComp('Date Input')">Date Input</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Dados</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Card')">Card</button>
+              <button class="sidebar-item" onclick="selectComp('Avatar e User')">Avatar e User</button>
+              <button class="sidebar-item" onclick="selectComp('Chip e Badge')">Chip e Badge</button>
+              <button class="sidebar-item" onclick="selectComp('Code e Kbd')">Code e Kbd</button>
+              <button class="sidebar-item" onclick="selectComp('Table')">Table</button>
+              <button class="sidebar-item" onclick="selectComp('Listbox')">Listbox</button>
+              <button class="sidebar-item" onclick="selectComp('Accordion')">Accordion</button>
+              <button class="sidebar-item" onclick="selectComp('Skeleton')">Skeleton</button>
+              <button class="sidebar-item" onclick="selectComp('Divider e Image')">Divider e Image</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Navegação</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Breadcrumbs')">Breadcrumbs</button>
+              <button class="sidebar-item" onclick="selectComp('Link')">Link</button>
+              <button class="sidebar-item" onclick="selectComp('Tabs')">Tabs</button>
+              <button class="sidebar-item" onclick="selectComp('Pagination')">Pagination</button>
+              <button class="sidebar-item" onclick="selectComp('Navbar')">Navbar</button>
+              <button class="sidebar-item" onclick="selectComp('Dropdown Menu')">Dropdown Menu</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Feedback</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Alert')">Alert</button>
+              <button class="sidebar-item" onclick="selectComp('Progress')">Progress</button>
+              <button class="sidebar-item" onclick="selectComp('Spinner')">Spinner</button>
+              <button class="sidebar-item" onclick="selectComp('Tooltip')">Tooltip</button>
+              <button class="sidebar-item" onclick="selectComp('Popover')">Popover</button>
+              <button class="sidebar-item" onclick="selectComp('Toast')">Toast</button>
+            </div>
+          </div>
+
+          <div class="sidebar-category">
+            <span class="sidebar-category-title">Overlays & Data</span>
+            <div class="sidebar-list">
+              <button class="sidebar-item" onclick="selectComp('Modal')">Modal</button>
+              <button class="sidebar-item" onclick="selectComp('Drawer')">Drawer</button>
+              <button class="sidebar-item" onclick="selectComp('Calendar')">Calendar</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Preview Column -->
+        <div class="preview-column">
+          <div class="preview-box">
+            <!-- Vértices técnicos -->
+            <div style="position: absolute; top: 12px; left: 12px; width: 12px; height: 12px; color: rgba(212, 175, 90, 0.2);" class="crosshair-corner"></div>
+            <div style="position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; color: rgba(212, 175, 90, 0.2);" class="crosshair-corner"></div>
+            <div style="position: absolute; bottom: 12px; left: 12px; width: 12px; height: 12px; color: rgba(212, 175, 90, 0.2);" class="crosshair-corner"></div>
+            <div style="position: absolute; bottom: 12px; right: 12px; width: 12px; height: 12px; color: rgba(212, 175, 90, 0.2);" class="crosshair-corner"></div>
+
+            <div id="render-target" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+              <!-- Componentes serão inseridos aqui -->
+            </div>
+          </div>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span style="color: var(--accent);">[ JS / HTML ]</span>
+              <span>Estrutura de Exemplo</span>
+            </div>
+            <code id="code-target">
+              <!-- Códigos serão inseridos aqui -->
+            </code>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <div id="toast" class="toast">Cor copiada com sucesso!</div>
+
+  <script>
+    const componentsData = {
+      'Cores': {
+        html: `
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%;">
+            <div style="text-align: center;"><div style="background:#05070B; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);"></div><span style="font-size:10px; font-family:monospace; color:#fff; display:block; margin-top:4px;">bg-deep</span></div>
+            <div style="text-align: center;"><div style="background:#0A0F18; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);"></div><span style="font-size:10px; font-family:monospace; color:#fff; display:block; margin-top:4px;">bg-alt</span></div>
+            <div style="text-align: center;"><div style="background:#D4AF5A; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);"></div><span style="font-size:10px; font-family:monospace; color:#fff; display:block; margin-top:4px;">accent</span></div>
+            <div style="text-align: center;"><div style="background:#EAEAEA; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);"></div><span style="font-size:10px; font-family:monospace; color:#fff; display:block; margin-top:4px;">text</span></div>
+          </div>
+        `,
+        code: `<div style="background-color: var(--accent);" />`
+      },
+      'Tipografia': {
+        html: `
+          <div style="width: 100%; text-align: left;">
+            <span style="font-family:'Marcellus', serif; font-size:24px; letter-spacing:0.1em; color:#fff; display:block; transform:scaleY(0.85); transform-origin:left; text-transform:uppercase;">MARCELLUS SERIF</span>
+            <span style="font-size:13px; color:var(--text-secondary); display:block; margin-top:8px;">Inter Sans-Serif: Interface de leitura principal.</span>
+          </div>
+        `,
+        code: `<h1 className="font-rework text-[24px]">MARCELLUS</h1>`
+      },
+      'Raio e Espaco': {
+        html: `
+          <div style="display: flex; gap: 12px; width: 100%;">
+            <div style="flex: 1; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 6px; font-size:10px; font-family:monospace; color:var(--accent); text-align:center;">Raio: 6px</div>
+            <div style="flex: 1; padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 12px; font-size:10px; font-family:monospace; color:var(--accent); text-align:center;">Raio: 12px</div>
+          </div>
+        `,
+        code: `<div className="rounded-[12px] p-4 bg-black/40" />`
+      },
+      'Elevacao': {
+        html: `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
+            <div style="background:var(--bg-alt); border: 1px solid var(--border-card); border-radius:12px; padding:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align:center; font-size:11px; font-weight:700;">SHADOW LG</div>
+            <div style="background:var(--bg-alt); border: 1px solid var(--border-card); border-radius:12px; padding:20px; box-shadow: 0 0 20px rgba(212,175,90,0.12); text-align:center; font-size:11px; font-weight:700; color:var(--accent);">GOLD GLOW</div>
+          </div>
+        `,
+        code: `<div className="shadow-[0_0_20px_rgba(212,175,90,0.12)]" />`
+      },
+      'Button': {
+        html: `
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-primary">Botão Primário</button>
+            <button class="btn btn-outline">Botão Secundário</button>
+          </div>
+        `,
+        code: `<button className="bg-accent hover:opacity-90 text-bg-deep text-[11px] font-bold uppercase tracking-wider py-3 px-6 rounded-full border-none">\n  Botão Primário\n</button>`
+      },
+      'Button Group': {
+        html: `
+          <div style="display: inline-flex; border: 1px solid var(--border-card); border-radius: 99px; overflow: hidden;">
+            <button style="background:var(--accent-soft); border:none; border-right:1px solid var(--border-card); color:var(--accent); padding:10px 20px; font-size:11px; font-weight:700; text-transform:uppercase; cursor:pointer;">Starter</button>
+            <button style="background:transparent; border:none; color:var(--text-secondary); padding:10px 20px; font-size:11px; font-weight:700; text-transform:uppercase; cursor:pointer;">Pro</button>
+          </div>
+        `,
+        code: `<div className="inline-flex rounded-full overflow-hidden border border-border-card">\n  <button className="bg-accent/15 text-accent hover:bg-accent/25 py-2.5 px-5">Starter</button>\n</div>`
+      },
+      'Input': {
+        html: `<input type="text" placeholder="Nome do assinante..." class="input-field" />`,
+        code: `<input type="text" placeholder="Nome..." className="bg-black/40 border border-border-card rounded-[10px] py-3.5 px-4 text-[13px] text-text-primary outline-none focus:border-accent" />`
+      },
+      'Number Input': {
+        html: `
+          <div style="display: flex; align-items: center; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 10px; overflow: hidden; width: 140px;">
+            <button onclick="changeNum(-1)" style="padding: 12px; background: transparent; border: none; color: var(--text-secondary); cursor: pointer;">-</button>
+            <span id="num-val" style="flex: 1; text-align: center; font-family: monospace; font-size: 14px; color: #fff;">1</span>
+            <button onclick="changeNum(1)" style="padding: 12px; background: transparent; border: none; color: var(--text-secondary); cursor: pointer;">+</button>
+          </div>
+        `,
+        code: `<div className="flex items-center bg-black/40 border rounded-[10px]">\n  <button className="p-3.5">-</button>\n  <input type="text" value={1} readOnly className="text-center font-mono w-12" />\n  <button className="p-3.5">+</button>\n</div>`
+      },
+      'Textarea': {
+        html: `<textarea placeholder="Mensagem do webhook..." rows="3" class="input-field" style="resize:none; font-family:inherit;"></textarea>`,
+        code: `<textarea className="w-full bg-black/40 border border-border-card rounded-[10px] py-3 px-4 text-[13px] outline-none" />`
+      },
+      'Input OTP': {
+        html: `
+          <div style="display: flex; gap: 8px;">
+            <input type="text" value="4" style="width: 40px; h: 40px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 8px; text-align: center; color: var(--accent); font-family: monospace; font-size: 16px; font-weight:700;" />
+            <input type="text" value="8" style="width: 40px; h: 40px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 8px; text-align: center; color: var(--accent); font-family: monospace; font-size: 16px; font-weight:700;" />
+            <input type="text" value="2" style="width: 40px; h: 40px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 8px; text-align: center; color: var(--accent); font-family: monospace; font-size: 16px; font-weight:700;" />
+          </div>
+        `,
+        code: `<input type="text" maxLength={1} className="w-10 h-10 bg-black/40 border rounded-[8px] text-center font-mono" />`
+      },
+      'Checkbox': {
+        html: `
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--accent);" />
+            <span style="font-size: 13px; color: var(--text-secondary);">Aceitar regulamento</span>
+          </label>
+        `,
+        code: `<label className="flex items-center gap-3 cursor-pointer">\n  <input type="checkbox" className="accent-accent" />\n  <span className="text-[13px] text-text-secondary">Aceitar regulamento</span>\n</label>`
+      },
+      'Radio Group': {
+        html: `
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size:12px; color:var(--text-secondary);"><input type="radio" name="r" checked style="accent-color: var(--accent);" /> Starter (R$ 49)</label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size:12px; color:var(--text-secondary);"><input type="radio" name="r" style="accent-color: var(--accent);" /> Pro (R$ 149)</label>
+          </div>
+        `,
+        code: `<input type="radio" checked className="accent-accent" />`
+      },
+      'Switch': {
+        html: `
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size:13px; color:var(--text-secondary);">Modo Sandbox</span>
+            <div onclick="toggleSwitch()" id="switch-btn" style="width: 48px; height: 24px; background: var(--accent); border-radius: 24px; position: relative; cursor: pointer; transition: background-color 0.2s;">
+              <div id="switch-knob" style="width: 14px; height: 14px; background: var(--bg-deep); border-radius: 50%; position: absolute; top: 5px; right: 6px; transition: right 0.2s;"></div>
+            </div>
+          </div>
+        `,
+        code: `<button className="relative w-12 h-6 rounded-full bg-accent">\n  <span className="absolute top-1.5 w-3 h-3 bg-bg-deep right-2" />\n</button>`
+      },
+      'Select': {
+        html: `
+          <select style="width:100%; background:rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius:10px; padding:12px 16px; font-family:inherit; color:#fff; font-size:13px; outline:none; cursor:pointer;">
+            <option>Conselho dos Arcontes (Pro)</option>
+            <option>Ordem dos Escribas (Starter)</option>
+          </select>
+        `,
+        code: `<select className="w-full bg-black/40 border border-border-card rounded-[10px] py-3.5 px-4 text-[13px] focus:border-accent" />`
+      },
+      'Autocomplete': {
+        html: `
+          <div style="position: relative; width: 100%; max-width: 280px;">
+            <input id="ac-input" onfocus="toggleAc(true)" oninput="filterAc()" type="text" placeholder="Pesquisar modelo..." class="input-field" style="padding-left: 36px;" />
+            <div id="ac-dropdown" class="autocomplete-list" style="display: none;">
+              <button class="autocomplete-item" onclick="selectAc('GPT-4o')">GPT-4o (Híbrido)</button>
+              <button class="autocomplete-item" onclick="selectAc('Claude 3.5')">Claude 3.5 Sonnet</button>
+            </div>
+          </div>
+        `,
+        code: `<input type="text" placeholder="Pesquisar..." className="w-full bg-black/40 border rounded-[10px] px-3 py-1.5" />`
+      },
+      'Slider': {
+        html: `
+          <div style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; font-size: 10px; font-family: monospace; color: var(--text-secondary); margin-bottom: 6px;">
+              <span>VOLUME DA API</span><span>50%</span>
+            </div>
+            <input type="range" value="50" style="width: 100%; accent-color: var(--accent);" />
+          </div>
+        `,
+        code: `<input type="range" className="w-full accent-accent h-1 bg-white/10 rounded-lg appearance-none" />`
+      },
+      'Form completo': {
+        html: `
+          <form onsubmit="event.preventDefault(); alert('Formulário enviado!');" style="display: flex; flex-direction: column; gap: 12px; width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 16px; text-align: left;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-secondary);">Nome Completo</label>
+              <input type="text" required placeholder="Lucas Silva" class="input-field" style="padding: 10px 12px;" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 10px; justify-content: center; font-size: 10px;">Enviar Inscrição</button>
+          </form>
+        `,
+        code: `<form className="bg-black/20 border p-5 rounded-[16px] flex flex-col gap-4">\n  <input type="text" className="bg-black/40 border rounded-[8px] py-2 px-3 text-[12px]" />\n  <button type="submit" className="bg-accent text-bg-deep font-bold py-2.5 rounded-full">Enviar</button>\n</form>`
+      },
+      'Date Input': {
+        html: `<input type="text" placeholder="DD/MM/AAAA" class="input-field" style="max-width: 200px; text-align: center; font-family: monospace;" />`,
+        code: `<input type="text" placeholder="DD/MM/AAAA" className="w-full max-w-[200px] bg-black/40 border rounded-[10px] py-3 px-4 font-mono" />`
+      },
+      'Card': {
+        html: `
+          <div class="card" style="width: 100%;">
+            <h4 style="font-family:'Marcellus', serif; font-size:14px; color:#fff; text-transform:uppercase; margin-bottom:8px;">Alexandria Card</h4>
+            <p>Layout padrão de container com miras nos quatro cantos.</p>
+          </div>
+        `,
+        code: `<div className="bg-bg-alt border border-border-card p-6 rounded-[16px] relative">\n  <div className="absolute top-4 left-4 w-3 h-3 text-accent/30" />\n  <h4>Card content</h4>\n</div>`
+      },
+      'Avatar e User': {
+        html: `
+          <div style="display: flex; align-items: center; gap: 12px; width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 12px; text-align: left;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft); border: 1px solid rgba(212,175,90,0.4); display: flex; align-items: center; justify-content: center; font-weight:700; color:var(--accent); font-size:13px;">LS</div>
+            <div style="flex: 1;">
+              <span style="font-size: 12px; font-weight: 600; color:#fff; display:block;">Lucas Silva</span>
+              <span style="font-size: 10px; color: var(--text-secondary); display:block;">lucas@example.com</span>
+            </div>
+            <span style="font-size: 9px; font-weight: 700; background: var(--accent-soft); color: var(--accent); padding: 2px 10px; border-radius: 99px;">PRO</span>
+          </div>
+        `,
+        code: `<div className="flex items-center gap-3 bg-black/20 border p-3 rounded-[12px]">\n  <div className="w-10 h-10 rounded-full bg-accent/20 border flex items-center justify-center font-bold text-accent">LS</div>\n</div>`
+      },
+      'Chip e Badge': {
+        html: `
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span style="font-size: 9px; font-weight: 700; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #22c55e; padding: 2px 10px; border-radius: 99px; text-transform: uppercase;">Ativo</span>
+            <span style="font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); color: var(--text-secondary); padding: 2px 10px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px;">Token API <span style="cursor:pointer; color:var(--text-muted);">x</span></span>
+          </div>
+        `,
+        code: `<span className="text-[9px] font-extrabold bg-[#22c55e]/15 border border-[#22c55e]/30 text-[#22c55e] px-2.5 py-0.5 rounded-full uppercase">ATIVO</span>`
+      },
+      'Code e Kbd': {
+        html: `
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+            <code style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); padding: 4px 10px; border-radius: 4px; font-family: monospace; font-size: 10px; color: var(--accent);">npm run dev</code>
+            <span style="font-size: 11px; color: var(--text-secondary);">Pressione <kbd style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10px; color: #fff;">⌘</kbd> + <kbd style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10px; color: #fff;">K</kbd></span>
+          </div>
+        `,
+        code: `<code className="bg-black/50 border px-2.5 py-1 rounded font-mono text-[10px] text-accent">npm run dev</code>`
+      },
+      'Table': {
+        html: `
+          <div style="width: 100%; overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 11px;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary);">
+                  <th style="padding: 6px 0;">PLANO</th>
+                  <th style="padding: 6px 0; text-align: right;">VALOR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                  <td style="padding: 8px 0; font-weight:700;">Starter</td>
+                  <td style="padding: 8px 0; text-align: right; font-family: monospace; color: var(--accent);">R$ 49,00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `,
+        code: `<table className="w-full text-left border-collapse text-[11px]">\n  <tr className="border-b"><td className="py-2">Starter</td></tr>\n</table>`
+      },
+      'Listbox': {
+        html: `
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-card); border-radius: 12px; padding: 8px; width: 100%; max-width: 200px; display: flex; flex-direction: column; gap: 4px;">
+            <button style="text-align: left; padding: 8px 12px; background: var(--accent); border: none; border-radius: 6px; color: var(--bg-deep); font-size: 11px; font-weight: 700; cursor: pointer;">Escribas (Starter)</button>
+            <button style="text-align: left; padding: 8px 12px; background: transparent; border: none; border-radius: 6px; color: var(--text-secondary); font-size: 11px; font-weight: 700; cursor: pointer;">Arcontes (Pro)</button>
+          </div>
+        `,
+        code: `<div className="bg-black/30 border rounded-[12px] p-2 flex flex-col gap-1">\n  <button className="text-left py-2 px-3 rounded-[6px] text-[11px] bg-accent text-bg-deep">Arcontes</button>\n</div>`
+      },
+      'Accordion': {
+        html: `
+          <div style="width: 100%;">
+            <div style="border: 1px solid var(--border-card); rounded-[10px]; background: rgba(0,0,0,0.2); overflow: hidden; border-radius: 10px;">
+              <button onclick="toggleAccordion()" style="width: 100%; text-align: left; padding: 16px; background: transparent; border: none; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; display: flex; justify-content: space-between;">
+                <span>Como integrar com Next.js?</span>
+                <span id="accordion-arrow">▼</span>
+              </button>
+              <div id="accordion-content" style="display: none; padding: 16px; font-size: 11px; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1);">
+                Configure o cabeçalho Authorization Bearer com a sua chave nos fetches da aplicação.
+              </div>
+            </div>
+          </div>
+        `,
+        code: `<div className="border border-border-card rounded-[10px] bg-black/20 overflow-hidden">\n  <button className="w-full text-left p-4">Como integrar?</button>\n</div>`
+      },
+      'Skeleton': {
+        html: `
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 12px; opacity: 0.6;">
+            <div style="height: 12px; background: rgba(255,255,255,0.05); border-radius: 4px; width: 60%;"></div>
+            <div style="height: 36px; background: rgba(255,255,255,0.05); border-radius: 8px; width: 100%;"></div>
+          </div>
+        `,
+        code: `<div className="w-full flex flex-col gap-3 animate-pulse">\n  <div className="h-4 bg-white/5 rounded-[4px] w-2/3" />\n</div>`
+      },
+      'Divider e Image': {
+        html: `
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
+            <div style="aspect-ratio: 2/1; background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); border-radius: 12px; display: flex; align-items: center; justify-content: center; width: 100%;"><span style="font-family: monospace; font-size: 10px; color: var(--text-muted);">IMAGE PLACEHOLDER</span></div>
+            <div style="position: relative; width: 100%; display: flex; items-center; justify-content: center; text-align: center;">
+              <div style="width: 100%; border-top: 1px solid var(--border-subtle); position: absolute; top: 8px;"></div>
+              <span style="position: relative; background: var(--bg-alt); padding: 0 10px; font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Divisor</span>
+            </div>
+          </div>
+        `,
+        code: `<div className="relative w-full flex items-center justify-center">\n  <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border-subtle" /></div>\n  <span className="relative bg-bg-alt px-3 text-[9px] font-bold text-text-muted uppercase">Divisor</span>\n</div>`
+      },
+      'Breadcrumbs': {
+        html: `
+          <div style="font-family: monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; display: flex; gap: 8px;">
+            <span>Painel</span> <span>/</span> <span style="color: var(--accent);">Assinatura</span>
+          </div>
+        `,
+        code: `<div className="flex items-center gap-2 font-mono text-[10px] text-text-muted uppercase">\n  <span>Painel</span><span>/</span><span className="text-accent">Assinatura</span>\n</div>`
+      },
+      'Link': {
+        html: `<a href="#pricing" style="font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">Ir para os Planos →</a>`,
+        code: `<a href="#pricing" className="text-[13px] font-semibold text-accent hover:text-accent-light underline transition-colors inline-flex items-center gap-1">\n  Ir para os Planos <ArrowRight size={14} />\n</a>`
+      },
+      'Tabs': {
+        html: `
+          <div style="display: flex; gap: 6px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 4px; border-radius: 8px; width: 100%;">
+            <button style="flex: 1; padding: 6px; background: var(--accent); border: none; border-radius: 6px; color: var(--bg-deep); font-size: 11px; font-weight: 700; text-transform: uppercase;">Dados</button>
+            <button style="flex: 1; padding: 6px; background: transparent; border: none; border-radius: 6px; color: var(--text-secondary); font-size: 11px; font-weight: 700; text-transform: uppercase;">API</button>
+          </div>
+        `,
+        code: `<div className="flex gap-2 bg-black/40 border border-border-subtle p-1 rounded-[8px]">\n  <button className="flex-1 py-1.5 rounded-[6px]">Dados</button>\n</div>`
+      },
+      'Pagination': {
+        html: `
+          <div style="font-family: monospace; font-size: 10px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+            <button style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">&lt;</button>
+            <span>Pág 1 de 5</span>
+            <button style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-card); padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">&gt;</button>
+          </div>
+        `,
+        code: `<div className="flex items-center gap-2 font-mono text-[10px] text-text-secondary">\n  <button className="bg-black/40 border border-border-card py-1 px-3 rounded">&lt;</button>\n</div>`
+      },
+      'Navbar': {
+        html: `
+          <div style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border-subtle); padding: 12px 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; text-transform: uppercase; tracking-wider: 0.05em; font-weight: 600;">
+            <span style="color: var(--accent); font-family: 'Marcellus', serif; font-size: 13px;">alexandria-tech</span>
+            <div style="display: flex; gap: 12px; color: var(--text-secondary);">
+              <span>API</span> <span>Membros</span>
+            </div>
+          </div>
+        `,
+        code: `<div className="w-full bg-black/60 border border-border-subtle rounded-[10px] p-3 flex items-center justify-between text-[11px] uppercase">\n  <span className="text-accent font-rework font-bold">alexandria-tech</span>\n</div>`
+      },
+      'Dropdown Menu': {
+        html: `
+          <div style="position: relative;">
+            <button onclick="toggleDrop()" class="btn btn-primary" style="padding: 10px 20px; font-size:11px;">Menu ▼</button>
+            <div id="drop-content" style="display: none; position: absolute; top: 40px; left: 0; background: var(--bg-alt); border: 1px solid var(--border-card); border-radius: 10px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 140px; text-align: left; z-index: 50;">
+              <button style="text-align: left; background:transparent; border:none; width: 100%; padding: 6px 10px; font-size: 11px; color:#fff; cursor:pointer;">Ajustes</button>
+            </div>
+          </div>
+        `,
+        code: `<div className="relative">\n  <button className="bg-accent text-bg-deep text-[11px] font-bold uppercase py-2.5 px-5 rounded-full flex items-center gap-1">\n    Menu <ChevronDown size={12} />\n  </button>\n</div>`
+      },
+      'Alert': {
+        html: `
+          <div style="background: rgba(212,175,90,0.1); border: 1px solid rgba(212,175,90,0.3); padding: 16px; border-radius: 12px; display: flex; gap: 12px; text-align: left; width: 100%;">
+            <span style="color: var(--accent); font-size: 18px;">⚠</span>
+            <div>
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #fff; display:block;">Aviso</span>
+              <span style="font-size: 10px; color: var(--text-secondary); display:block; margin-top:2px;">Serviço do Claude passará por manutenção rápida hoje às 04:00.</span>
+            </div>
+          </div>
+        `,
+        code: `<div className="bg-accent/10 border border-accent/30 p-4 rounded-[12px] flex gap-3 text-left">\n  <AlertTriangle className="text-accent" size={18} />\n</div>`
+      },
+      'Progress': {
+        html: `
+          <div style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px;">
+              <span>Processamento</span><span>70%</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 99px; overflow: hidden;">
+              <div style="background: var(--accent); height: 100%; width: 70%; border-radius: 99px;"></div>
+            </div>
+          </div>
+        `,
+        code: `<div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">\n  <div className="bg-accent h-full rounded-full" style={{ width: '70%' }} />\n</div>`
+      },
+      'Spinner': {
+        html: `<div style="width: 32px; height: 32px; border: 2px solid rgba(212,175,90,0.2); border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite;"></div>`,
+        code: `<div className="w-8 h-8 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />`
+      },
+      'Tooltip': {
+        html: `<div style="background: #000; border: 1px solid rgba(212,175,90,0.2); padding: 8px 14px; border-radius: 6px; font-family: monospace; font-size: 10px; color: var(--accent); text-transform: uppercase; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">Copiar Token</div>`,
+        code: `<div className="bg-black/90 border border-accent/20 px-3.5 py-2 rounded-[6px] text-[10px] text-accent font-mono uppercase">Copiar</div>`
+      },
+      'Popover': {
+        html: `
+          <div style="background: var(--bg-alt); border: 1px solid var(--border-card); padding: 16px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); text-align: left; width: 100%; max-width: 240px;">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #fff; display:block; margin-bottom:4px;">Dica da API</span>
+            <p>Reduza payloads usando compactação.</p>
+          </div>
+        `,
+        code: `<div className="bg-bg-alt border border-border-card p-4 rounded-[12px] shadow-2xl">\n  <p className="text-[11px] text-text-secondary">Dica da API</p>\n</div>`
+      },
+      'Toast': {
+        html: `
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="triggerToast()" class="btn btn-primary">Testar Toast</button>
+          </div>
+        `,
+        code: `<div className="bg-[#22c55e] text-bg-deep p-4 rounded-[12px] font-bold text-[12px] uppercase">Salvo com sucesso!</div>`
+      },
+      'Modal': {
+        html: `
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="toggleModal(true)" class="btn btn-primary">Abrir Modal</button>
+            <div id="modal-box" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 100; padding: 20px;">
+              <div style="background: var(--bg-alt); border: 1px solid var(--border-card); padding: 24px; border-radius: 16px; max-width: 340px; w: 100%; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6);">
+                <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color:#fff; display:block; margin-bottom:8px;">Acesso Especial</span>
+                <p style="margin-bottom:20px;">Deseja confirmar a liberação da chave SSH?</p>
+                <div style="display:flex; gap:8px; justify-content:center;">
+                  <button onclick="toggleModal(false)" class="btn btn-ghost" style="padding: 8px 16px;">Voltar</button>
+                  <button onclick="toggleModal(false)" class="btn btn-primary" style="padding: 8px 16px;">Confirmar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        code: `<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">\n  <div className="bg-bg-alt border border-border-card p-6 rounded-[16px] max-w-[380px] w-full text-center relative shadow-2xl">\n    <span className="text-[12px] font-bold text-white uppercase block mb-2">Acesso</span>\n  </div>\n</div>`
+      },
+      'Drawer': {
+        html: `
+          <div style="background: var(--bg-alt); border: 1px solid var(--border-card); border-bottom: none; border-radius: 16px 16px 0 0; padding: 20px; width: 100%; max-width: 320px; text-align: center; margin-top: 40px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3);">
+            <div style="width: 40px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 0 auto 12px;"></div>
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff;">Console</span>
+            <p style="margin-top: 4px;">Sessão expira em 29 dias.</p>
+          </div>
+        `,
+        code: `<div className="bg-bg-alt border border-border-card border-b-none p-5 rounded-t-[16px] w-full max-w-sm shadow-2xl">\n  <span className="text-[12px] font-bold text-white uppercase block">Console</span>\n</div>`
+      },
+      'Calendar': {
+        html: `
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 16px; border-radius: 12px; width: 100%; max-width: 240px; text-align: center;">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color:#fff; display:block; margin-bottom:10px;">Junho 2026</span>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; font-family: monospace; font-size: 10px; color: var(--text-muted);">
+              <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+              <span style="color: var(--text-secondary);">1</span><span style="color: var(--text-secondary);">2</span><span style="color: var(--text-secondary);">3</span>
+              <span style="background: var(--accent); color: var(--bg-deep); font-weight: 700; border-radius: 4px; padding: 2px 0;">4</span>
+              <span>5</span><span>6</span><span>7</span>
+            </div>
+          </div>
+        `,
+        code: `<div className="bg-black/30 border border-border-subtle p-4 rounded-[12px] w-full max-w-[260px] text-center">\n  <div className="grid grid-cols-7 gap-2 text-center text-[10px] font-mono text-text-muted">...</div>\n</div>`
+      }
+    };
+
+    function selectComp(name) {
+      // Toggle active states
+      const items = document.querySelectorAll('.sidebar-item');
+      items.forEach(it => {
+        if (it.innerText === name || (name === 'Cores' && it.innerText === 'Cores') || (name === 'Tipografia' && it.innerText === 'Tipografia') || (name === 'Raio e Espaco' && it.innerText === 'Raio e Espaco') || (name === 'Elevacao' && it.innerText === 'Elevacao')) {
+          it.classList.add('active');
+        } else {
+          it.classList.remove('active');
+        }
+      });
+
+      const comp = componentsData[name] || componentsData['Button'];
+      document.getElementById('render-target').innerHTML = comp.html;
+      document.getElementById('code-target').innerText = comp.code;
+    }
+
+    // Default select
+    selectComp('Button');
+
+    // Custom spin animation keyframe injection
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+    document.head.appendChild(style);
+
+    // Interactive helper functions
+    function changeNum(val) {
+      const el = document.getElementById('num-val');
+      if (el) {
+        let cur = parseInt(el.innerText, 10) || 1;
+        el.innerText = Math.max(1, cur + val);
+      }
+    }
+
+    function toggleSwitch() {
+      const btn = document.getElementById('switch-btn');
+      const knob = document.getElementById('switch-knob');
+      if (btn.style.backgroundColor === 'rgb(20, 20, 20)' || btn.style.backgroundColor === '') {
+        btn.style.backgroundColor = 'var(--accent)';
+        knob.style.right = '6px';
+        knob.style.left = 'auto';
+      } else {
+        btn.style.backgroundColor = '#141414';
+        knob.style.right = 'auto';
+        knob.style.left = '6px';
+      }
+    }
+
+    function toggleAc(open) {
+      document.getElementById('ac-dropdown').style.display = open ? 'block' : 'none';
+    }
+
+    function selectAc(val) {
+      document.getElementById('ac-input').value = val;
+      toggleAc(false);
+    }
+
+    function toggleAccordion() {
+      const el = document.getElementById('accordion-content');
+      const arrow = document.getElementById('accordion-arrow');
+      if (el.style.display === 'none') {
+        el.style.display = 'block';
+        arrow.innerText = '▲';
+      } else {
+        el.style.display = 'none';
+        arrow.innerText = '▼';
+      }
+    }
+
+    function toggleDrop() {
+      const el = document.getElementById('drop-content');
+      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function triggerToast() {
+      const toast = document.getElementById('toast');
+      toast.innerText = '✓ Operação concluída com sucesso!';
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    function toggleModal(open) {
+      document.getElementById('modal-box').style.display = open ? 'flex' : 'none';
+    }
+
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex).then(() => {
+        const toast = document.getElementById('toast');
+        toast.innerText = 'HEX ' + hex + ' copiado com sucesso!';
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

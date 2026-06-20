@@ -28,8 +28,8 @@ export default function FloatingNotifications() {
       while (!positionOk && attempts < 15) {
         attempts++;
         const isLeft = Math.random() > 0.5;
-        x = isLeft ? (3 + Math.random() * 22) : (72 + Math.random() * 18);
-        y = 10 + Math.random() * 75;
+        x = isLeft ? (1 + Math.random() * 5) : (86 + Math.random() * 8);
+        y = 12 + Math.random() * 70;
 
         let tooClose = false;
         for (const wrap of prev) {
@@ -91,7 +91,7 @@ export default function FloatingNotifications() {
   }, [activeNotifs]);
 
   return (
-    <div id="floating-notif-container" className="fixed inset-0 pointer-events-none z-30 select-none overflow-hidden hidden lg:block">
+    <div id="floating-notif-container" className="fixed inset-0 pointer-events-none z-20 select-none overflow-hidden hidden xl:block">
       <AnimatePresence>
         {activeNotifs.map((notif) => (
           <NotificationCard key={notif.id} notif={notif} onDismiss={() => {

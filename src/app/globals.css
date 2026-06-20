@@ -73,6 +73,10 @@
   text-shadow: 0 0 40px rgba(212, 175, 90, 0.15);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --background: #05070B;
   --foreground: rgba(255, 255, 255, 0.92);

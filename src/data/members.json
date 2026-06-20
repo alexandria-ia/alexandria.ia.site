@@ -1,0 +1,13 @@
+[
+  {
+    "email": "user@example.com",
+    "name": "Usuário Teste",
+    "active": true,
+    "plan": "pro",
+    "signupDate": "2026-06-20",
+    "affiliateCode": "TESTE_REF",
+    "affiliateInvitesGenerated": 15,
+    "affiliateInvitesValidated": 3,
+    "affiliateCredits": 30.00
+  }
+]

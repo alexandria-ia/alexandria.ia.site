@@ -11,7 +11,7 @@ export default function ApiSnippets({ filename }: ApiSnippetsProps) {
   const [copied, setCopied] = useState(false);
 
   const snippets = {
-    curl: `curl -X POST "https://api.alexandria.ia/v1/chat/completions" \\
+    curl: `curl -X POST "https://api.alexandria-tech.com/v1/chat/completions" \\
   -H "Authorization: Bearer $ALEXANDRIA_API_KEY" \\
   -d '{
     "model": "alexandria-pro-v2",
@@ -19,14 +19,14 @@ export default function ApiSnippets({ filename }: ApiSnippetsProps) {
   }'`,
     python: `import requests
 
-url = "https://api.alexandria.ia/v1/chat/completions"
+url = "https://api.alexandria-tech.com/v1/chat/completions"
 headers = {"Authorization": "Bearer $ALEXANDRIA_API_KEY"}
 payload = {
     "model": "alexandria-pro-v2",
     "anchors": ["${filename}"]
 }
 response = requests.post(url, json=payload, headers=headers)`,
-    js: `fetch("https://api.alexandria.ia/v1/chat/completions", {
+    js: `fetch("https://api.alexandria-tech.com/v1/chat/completions", {
   method: "POST",
   headers: { "Authorization": "Bearer $ALEXANDRIA_API_KEY" },
   body: JSON.stringify({

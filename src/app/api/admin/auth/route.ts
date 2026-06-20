@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { signSession, COOKIE_NAME, isAuthorizedRequest } from '@/lib/session';
+import { signSession, COOKIE_NAME, isAuthorizedRequest, verifyAdminCredentials } from '@/lib/session';
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'alexandria_admin_2026';
+export const dynamic = 'force-dynamic';
 
 // Check auth status
 export async function GET(req: Request) {
@@ -12,9 +12,9 @@ export async function GET(req: Request) {
 // Log in
 export async function POST(req: Request) {
   try {
-    const { password } = await req.json();
+    const { username, password, token } = await req.json();
 
-    if (password === ADMIN_PASSWORD) {
+    if (verifyAdminCredentials(username || '', password || '', token || '')) {
       const timestamp = Date.now().toString();
       const signature = signSession(timestamp);
       const cookieValue = `${timestamp}.${signature}`;
@@ -25,14 +25,14 @@ export async function POST(req: Request) {
       response.headers.append(
         'Set-Cookie',
         `${COOKIE_NAME}=${cookieValue}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${24 * 60 * 60}; ${
-          process.env.NODE_ENV === 'production' ? 'Secure;' : ''
+          req.url.startsWith('https:') ? 'Secure;' : ''
         }`
       );
 
       return response;
     }
 
-    return NextResponse.json({ error: 'Senha incorreta.' }, { status: 401 });
+    return NextResponse.json({ error: 'Credenciais administrativas inválidas.' }, { status: 401 });
   } catch (error) {
     return NextResponse.json({ error: 'Erro no servidor.' }, { status: 500 });
   }

@@ -11,7 +11,8 @@ export default function AffiliateSection() {
     const trimmed = nickname.trim();
     if (!trimmed) return;
     const slug = trimmed.toLowerCase().replace(/[^a-z0-9]/g, '_');
-    setGeneratedLink(`https://alexandria.ia/?ref=${slug}`);
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://alexandria-tech.com.br';
+    setGeneratedLink(`${origin}/?ref=${slug}`);
     setCopied(false);
   };
 

@@ -106,8 +106,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.15 }}
           className="font-rework text-[clamp(34px,5.5vw,68px)] font-extrabold leading-[1.0] tracking-[0.04em] uppercase mb-6 bg-gradient-to-br from-white via-white to-accent bg-clip-text text-transparent scale-y-[0.82] origin-center text-center"
         >
-          Tokens infinitos.<br />
-          <span className="shimmer-gold-text">Sem limites.</span>
+          A infraestrutura de IA definitiva.<br />
+          <span className="shimmer-gold-text">Todos os modelos em uma única API.</span>
         </motion.h1>
 
         {/* Description */}
@@ -117,7 +117,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-[clamp(14px,1.8vw,18px)] text-text-secondary leading-relaxed max-w-[540px] mb-10 text-center mx-auto"
         >
-          Conecte sua aplicação à nossa API e consuma modelos de IA sem se preocupar com custos por token. Plano fixo, uso ilimitado.
+          Conecte sua aplicação a uma infraestrutura multi-modelos avançada. Inteligência sem limites sob uma assinatura mensal fixa e previsível.
         </motion.p>
 
         {/* Actions */}

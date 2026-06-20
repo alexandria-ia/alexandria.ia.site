@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { isAuthorizedRequest } from '@/lib/session';
+import { getRealStats } from '@/lib/stats';
+
+export const dynamic = 'force-dynamic';
 
 const configPath = path.join(process.cwd(), 'src', 'data', 'config.json');
 
@@ -46,18 +49,16 @@ function maskToken(token: string): string {
 // Authorized admin: returns all fields (with masked token)
 export async function GET(req: Request) {
   const isAuthorized = isAuthorizedRequest(req);
-  const config = await readConfig();
+  const stats = await getRealStats(isAuthorized);
 
   if (isAuthorized) {
     return NextResponse.json({
-      ...config,
-      abacatePayToken: maskToken(config.abacatePayToken || '')
+      ...stats,
+      abacatePayToken: maskToken(stats.abacatePayToken || '')
     });
   }
 
-  // Public representation (prevent leaking token)
-  const { abacatePayToken, ...publicConfig } = config;
-  return NextResponse.json(publicConfig);
+  return NextResponse.json(stats);
 }
 
 // POST: updates configurations (Admin only)

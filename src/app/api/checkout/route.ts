@@ -21,10 +21,14 @@ async function readServerConfig() {
 
 export async function POST(req: Request) {
   try {
-    const { planId } = await req.json();
+    const { planId, email, name, taxId, referrer } = await req.json();
 
     if (!planId || (planId !== 'starter' && planId !== 'pro')) {
       return NextResponse.json({ error: 'Parâmetro planId inválido ou ausente.' }, { status: 400 });
+    }
+
+    if (!email || !email.includes('@')) {
+      return NextResponse.json({ error: 'E-mail de cliente inválido.' }, { status: 400 });
     }
 
     // Load actual configurations from server storage (prevents price tampering)
@@ -68,8 +72,18 @@ export async function POST(req: Request) {
                 price: price * 100, // cents
               },
             ],
-            returnUrl: `${origin}/`,
-            completionUrl: `${origin}/`,
+            returnUrl: `${origin}/members`,
+            completionUrl: `${origin}/members?success=true`,
+            customer: {
+              name: name || 'Assinante Alexandria',
+              email: email,
+              taxId: taxId || undefined
+            },
+            metadata: {
+              email: email,
+              planId: planId,
+              referrer: referrer || ''
+            }
           }),
         });
 
@@ -101,7 +115,7 @@ export async function POST(req: Request) {
     const billingId = 'AP-MOCK-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     
     // Standard mock Pix QR Code payload (copy-paste)
-    const mockPixCode = `00020101021226830014br.gov.bcb.pix2561api.abacatepay.com/v1/pix/${billingId}5204000053039865405${price.toFixed(2)}5802BR5913Alexandria.ia6009Sao Paulo62070503***6304D1B2`;
+    const mockPixCode = `00020101021226830014br.gov.bcb.pix2561api.abacatepay.com/v1/pix/${billingId}5204000053039865405${price.toFixed(2)}5802BR5913alexandria-tech6009Sao Paulo62070503***6304D1B2`;
 
     return NextResponse.json({
       success: true,

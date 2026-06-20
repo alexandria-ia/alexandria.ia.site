@@ -5,7 +5,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ParticleCanvas from '@/components/canvas/ParticleCanvas';
 import CursorGlow from '@/components/canvas/CursorGlow';
-import FloatingNotifications from '@/components/notifications/FloatingNotifications';
 import CategorySidebar from '@/components/database/CategorySidebar';
 import FileExplorer from '@/components/database/FileExplorer';
 import TelemetryPanel from '@/components/database/TelemetryPanel';
@@ -40,7 +39,6 @@ export default function DatabasePage() {
       {/* Background Decorators */}
       <ParticleCanvas />
       <CursorGlow />
-      <FloatingNotifications />
 
       {/* Main layout */}
       <Navbar />

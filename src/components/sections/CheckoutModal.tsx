@@ -14,9 +14,15 @@ interface CheckoutModalProps {
 
 export default function CheckoutModal({ isOpen, planName, price, onClose }: CheckoutModalProps) {
   const store = useConfigStore();
-  const [paymentStep, setPaymentStep] = useState<'pay' | 'success'>('pay');
+  const [paymentStep, setPaymentStep] = useState<'form' | 'pay' | 'success'>('form');
   const [loading, setLoading] = useState(false);
   
+  // Customer details
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [customerTaxId, setCustomerTaxId] = useState('');
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
   // Pix Data
   const [billingId, setBillingId] = useState('');
   const [pixCode, setPixCode] = useState('');
@@ -26,59 +32,22 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
   const [copied, setCopied] = useState(false);
   const [simulating, setSimulating] = useState(false);
 
-  // Generate checkout Pix billing when modal opens
+  // Reset fields when modal state changes
   useEffect(() => {
-    if (!isOpen) return;
-    
-    const generateBilling = async () => {
-      setLoading(true);
-      setPaymentStep('pay');
+    if (isOpen) {
+      setPaymentStep('form');
+      setCustomerEmail('');
+      setCustomerName('');
+      setCustomerTaxId('');
+      setFormErrors({});
+      setBillingId('');
+      setPixCode('');
+      setQrCodeUrl('');
+      setCheckoutUrl('');
       setCopied(false);
       setSimulating(false);
-      
-      try {
-        const response = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            planId: planName.toLowerCase().includes('escribas') ? 'starter' : 'pro'
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error('Falha ao processar checkout');
-        }
-
-        const data = await response.json();
-        
-        setBillingId(data.billingId);
-        setPixCode(data.pixCode);
-        setQrCodeUrl(data.qrCodeUrl);
-        setCheckoutUrl(data.url);
-
-        // Save transaction as pending in global store
-        const newTx: Transaction = {
-          id: data.billingId,
-          plan: planName,
-          amount: price,
-          status: 'pending',
-          timestamp: new Date().toLocaleString('pt-BR'),
-          pixCode: data.pixCode
-        };
-
-        store.setConfig({
-          transactions: [newTx, ...store.transactions]
-        });
-
-      } catch (err) {
-        console.error('Erro de Checkout:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    generateBilling();
-  }, [isOpen, planName, price]);
+    }
+  }, [isOpen]);
 
   const handleCopyPix = () => {
     if (!pixCode) return;
@@ -87,11 +56,81 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleGenerateBilling = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validations
+    const errors: Record<string, string> = {};
+    if (!customerEmail || !customerEmail.includes('@')) {
+      errors.email = 'Insira um e-mail válido para acessar sua área de membros.';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setLoading(true);
+    setFormErrors({});
+    
+    try {
+      const referrer = typeof window !== 'undefined' ? localStorage.getItem('alexandria_referrer') || '' : '';
+
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planId: planName.toLowerCase().includes('escribas') ? 'starter' : 'pro',
+          email: customerEmail,
+          name: customerName,
+          taxId: customerTaxId,
+          referrer
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Falha ao processar checkout');
+      }
+
+      const data = await response.json();
+      
+      setBillingId(data.billingId);
+      setPixCode(data.pixCode);
+      setQrCodeUrl(data.qrCodeUrl);
+      setCheckoutUrl(data.url);
+      setPaymentStep('pay');
+
+      // Save transaction as pending in global store
+      const newTx: Transaction = {
+        id: data.billingId,
+        plan: planName,
+        amount: price,
+        status: 'pending',
+        timestamp: new Date().toLocaleString('pt-BR'),
+        pixCode: data.pixCode
+      };
+
+      store.setConfig({
+        transactions: [newTx, ...store.transactions]
+      });
+
+    } catch (err: any) {
+      console.error('Erro de Checkout:', err);
+      setFormErrors({ general: err.message || 'Falha na comunicação com o servidor.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSimulatePayment = async () => {
     if (!billingId) return;
     setSimulating(true);
 
     try {
+      const referrer = typeof window !== 'undefined' ? localStorage.getItem('alexandria_referrer') || '' : '';
+      const planId = planName.toLowerCase().includes('escribas') ? 'starter' : 'pro';
+
       // Trigger Webhook API route simulation
       const response = await fetch('/api/webhook', {
         method: 'POST',
@@ -100,12 +139,19 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
           'x-abacatepay-signature': 'mock-signature-hash-2026-alexandria'
         },
         body: JSON.stringify({
-          event: 'billing.status.changed',
+          event: 'checkout.completed',
           data: {
             id: billingId,
             status: 'PAID',
             amount: price * 100,
-            metadata: { plan: planName }
+            customer: {
+              name: customerName || 'Assinante Alexandria'
+            },
+            metadata: {
+              email: customerEmail,
+              planId: planId,
+              referrer: referrer
+            }
           }
         })
       });
@@ -135,7 +181,7 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
   const handleClose = () => {
     onClose();
     setTimeout(() => {
-      setPaymentStep('pay');
+      setPaymentStep('form');
     }, 300);
   };
 
@@ -185,6 +231,67 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
                   Gerando fatura Pix...
                 </span>
               </div>
+            ) : paymentStep === 'form' ? (
+              <form onSubmit={handleGenerateBilling} className="flex flex-col gap-4 text-left">
+                <p className="text-[12px] text-text-secondary mb-2">
+                  Preencha os dados de cadastro. Suas credenciais da área de membros serão vinculadas ao e-mail informado.
+                </p>
+
+                {formErrors.general && (
+                  <div className="text-[11px] text-red-500 font-semibold uppercase tracking-wider mb-2 text-center">
+                    {formErrors.general}
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  {/* Email Input */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] font-mono uppercase text-text-muted">E-mail de Acesso *</label>
+                    <input
+                      type="email"
+                      placeholder="seu@email.com"
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
+                      className={`w-full bg-black/40 border ${formErrors.email ? 'border-red-500' : 'border-border-card'} focus:border-accent rounded-[8px] py-2.5 px-3 text-[12px] text-text-primary outline-none transition-colors`}
+                      required
+                    />
+                    {formErrors.email && (
+                      <span className="text-[9px] text-red-500 font-semibold uppercase mt-0.5">{formErrors.email}</span>
+                    )}
+                  </div>
+
+                  {/* Name Input */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] font-mono uppercase text-text-muted">Nome Completo</label>
+                    <input
+                      type="text"
+                      placeholder="Seu Nome"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full bg-black/40 border border-border-card focus:border-accent rounded-[8px] py-2.5 px-3 text-[12px] text-text-primary outline-none transition-colors"
+                    />
+                  </div>
+
+                  {/* TaxId Input */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] font-mono uppercase text-text-muted">CPF / CNPJ (Opcional)</label>
+                    <input
+                      type="text"
+                      placeholder="000.000.000-00"
+                      value={customerTaxId}
+                      onChange={(e) => setCustomerTaxId(e.target.value)}
+                      className="w-full bg-black/40 border border-border-card focus:border-accent rounded-[8px] py-2.5 px-3 text-[12px] text-text-primary outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full text-[12px] font-bold tracking-[0.06em] uppercase bg-accent text-bg-deep py-3.5 rounded-full hover:opacity-90 transition-opacity border-none cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+                >
+                  Ir para o Pagamento
+                </button>
+              </form>
             ) : paymentStep === 'pay' ? (
               <div className="flex flex-col items-center">
                 <div className="flex flex-col items-center gap-3 mb-6 w-full">
@@ -281,20 +388,17 @@ export default function CheckoutModal({ isOpen, planName, price, onClose }: Chec
 
                 <div className="text-left w-full bg-black/35 border border-border-subtle p-5 rounded-[8px] mb-6 flex flex-col gap-2">
                   <p className="text-accent font-semibold text-[10px] tracking-wider uppercase mb-1 font-rework">
-                    // Próximos passos da Ordem
+                    // Acesso Liberado
                   </p>
-                  <p className="text-[12px] text-text-secondary">1. Verifique o e-mail cadastrado.</p>
-                  <p className="text-[12px] text-text-secondary">2. Acesse nosso portal de desenvolvedor no Discord.</p>
-                  <p className="text-[12px] text-text-secondary">
-                    3. O bot **Hermes** gerará sua chave de API automaticamente em minutos.
-                  </p>
+                  <p className="text-[12px] text-text-secondary">Seu plano já está ativo na plataforma.</p>
+                  <p className="text-[12px] text-text-secondary">Acesse a **Área de Membros** utilizando seu e-mail para resgatar seus bônus, links de afiliados e acessar o Discord.</p>
                 </div>
 
                 <button
                   onClick={handleClose}
-                  className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-[0.04em] uppercase bg-transparent text-text-primary border border-white/15 px-6 py-2.5 rounded-full hover:bg-white/5 transition-colors"
+                  className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-[0.04em] uppercase bg-accent text-bg-deep border-none px-6 py-2.5 rounded-full hover:opacity-90 transition-all"
                 >
-                  Concluir
+                  Acessar Área de Membros
                 </button>
               </div>
             )}

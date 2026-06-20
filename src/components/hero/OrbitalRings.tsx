@@ -7,7 +7,7 @@ export default function OrbitalRings() {
     <div 
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(650px,_90vw)] h-[min(650px,_90vw)] z-0 pointer-events-none opacity-20"
       style={{
-        transform: 'translate(-50%, -50%) perspective(1000px) rotateX(60deg) rotateY(-10deg)',
+        transform: 'perspective(1000px) rotateX(60deg) rotateY(-10deg)',
         transformStyle: 'preserve-3d',
       }}
     >

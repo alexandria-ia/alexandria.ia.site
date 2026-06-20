@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # CLAUDE.md - Regras Operacionais do Agente
 
 ## 1. Pense Antes de Agir
