@@ -6,27 +6,66 @@ import OrbitalRings from './OrbitalRings';
 import FloatingBadges from './FloatingBadges';
 import GlowOrbs from './GlowOrbs';
 
+const LANGUAGES = [
+  "CONHECIMENTO. INTELIGÊNCIA. ETERNIDADE.", // Portuguese
+  "SAPIENTIA. COGNITIO. AETERNITAS.",        // Latin
+  "KNOWLEDGE. INTELLIGENCE. ETERNITY.",      // English
+  "ΓΝΩΣΗ. ΝΟΗΜΟΣΥΝΗ. ΑΙΩΝΙΟΤΗΤΑ.",          // Greek
+  "知識。知性。永遠。",                        // Japanese
+  "CONOCIMIENTO. INTELIGENCIA. ETERNIDAD.",   // Spanish
+  "WISSEN. INTELLIGENZ. EWIGKEIT.",          // German
+  "CONNAISSANCE. INTELLIGENCE. ÉTERNITÉ.",   // French
+  "ЗНАНИЕ. ИНТЕЛЛЕКТ. ВЕЧНОСТЬ.",             // Russian
+  "知识。智能。永恒。",                        // Chinese
+  "معرفة. ذكاء. خلود."                         // Arabic
+];
+
 export default function HeroSection() {
-  const sloganText = "CONHECIMENTO, INTELIGÊNCIA, ETERNITY.";
-  const [displayedSlogan, setDisplayedSlogan] = useState('');
-  const [typingComplete, setTypingComplete] = useState(false);
+  const [currentText, setCurrentText] = useState(LANGUAGES[0]);
+  const [langIndex, setLangIndex] = useState(0);
 
   useEffect(() => {
-    let index = 0;
-    const startTimeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        setDisplayedSlogan((prev) => prev + sloganText.charAt(index));
-        index++;
-        if (index >= sloganText.length) {
-          clearInterval(interval);
-          setTypingComplete(true);
-        }
-      }, 55); // 55ms per character
-      return () => clearInterval(interval);
-    }, 500);
+    const cycleInterval = setInterval(() => {
+      setLangIndex((prev) => (prev + 1) % LANGUAGES.length);
+    }, 4500);
 
-    return () => clearTimeout(startTimeout);
+    return () => clearInterval(cycleInterval);
   }, []);
+
+  useEffect(() => {
+    const targetText = LANGUAGES[langIndex];
+    let frame = 0;
+    const totalFrames = 15;
+    const glyphs = ["Ø", "Ξ", "Ψ", "Ω", "ℵ", "@", "#", "$", "%", "⚡", "✦", "❖", "✧", "⚛", "⚲", "⚙"];
+    
+    const interval = setInterval(() => {
+      frame++;
+      const progress = frame / totalFrames;
+      const revealCount = Math.floor(progress * targetText.length);
+      
+      let nextDisplayText = "";
+      for (let i = 0; i < targetText.length; i++) {
+        if (i < revealCount) {
+          nextDisplayText += targetText[i];
+        } else {
+          if (targetText[i] === " " || targetText[i] === "." || targetText[i] === ",") {
+            nextDisplayText += targetText[i];
+          } else {
+            nextDisplayText += glyphs[Math.floor(Math.random() * glyphs.length)];
+          }
+        }
+      }
+      
+      setCurrentText(nextDisplayText);
+      
+      if (frame >= totalFrames) {
+        clearInterval(interval);
+        setCurrentText(targetText);
+      }
+    }, 40);
+    
+    return () => clearInterval(interval);
+  }, [langIndex]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-28 md:py-36 overflow-hidden">
@@ -56,10 +95,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8 }}
           className="inline-flex items-center justify-center text-[10px] font-semibold tracking-[0.22em] text-accent uppercase mb-6 px-4 py-1.5 border border-accent-soft rounded-full bg-accent-soft/30 min-h-[30px]"
         >
-          <span>{displayedSlogan}</span>
-          {!typingComplete && (
-            <span className="inline-block w-[1.5px] h-[9px] bg-accent ml-1.5 animate-pulse" />
-          )}
+          <span>{currentText}</span>
+          <span className="inline-block w-[1.5px] h-[9px] bg-accent ml-1.5 animate-pulse" />
         </motion.div>
 
         {/* Title */}
