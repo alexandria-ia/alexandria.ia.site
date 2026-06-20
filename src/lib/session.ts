@@ -3,7 +3,8 @@ import crypto from 'crypto';
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin_alexandria';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'hZOzJCiP5DxeP1ok/0RlQ+r62bv30Zjx';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'alexandria_token_2026';
-const ADMIN_TOKEN_HASH = process.env.ADMIN_TOKEN_HASH || crypto.createHash('sha256').update(ADMIN_TOKEN).digest('hex');
+
+const ADMIN_TOKEN_HASH = crypto.createHash('sha256').update(ADMIN_TOKEN).digest('hex');
 const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'c2ea619c619e5eb9fa77222d1208314095fdc6963099f6a965d36027fdf1a9c3';
 
 export const COOKIE_NAME = 'alexandria_admin_session';
@@ -37,20 +38,20 @@ export function validateSession(cookieValue: string): boolean {
 
 export function verifyAdminCredentials(usernameInput: string, passwordInput: string, tokenInput: string): boolean {
   const hashInput = crypto.createHash('sha256').update(tokenInput).digest('hex');
-  
-  console.log('--- ADMIN LOGIN ATTEMPT ---');
-  console.log('Username Input:', usernameInput, '| Expected:', ADMIN_USERNAME);
-  console.log('Password Input:', passwordInput, '| Expected:', ADMIN_PASSWORD);
-  console.log('Token Input:', tokenInput);
-  console.log('Token Hash Input:', hashInput, '| Expected:', ADMIN_TOKEN_HASH);
-  console.log('---------------------------');
-  
-  // Timing safe comparison or standard secure comparison
-  return (
-    usernameInput === ADMIN_USERNAME &&
-    passwordInput === ADMIN_PASSWORD &&
-    hashInput === ADMIN_TOKEN_HASH
-  );
+
+  const usernameBuf = Buffer.from(usernameInput);
+  const passwordBuf = Buffer.from(passwordInput);
+  const hashBuf = Buffer.from(hashInput);
+
+  const adminUsernameBuf = Buffer.from(ADMIN_USERNAME);
+  const adminPasswordBuf = Buffer.from(ADMIN_PASSWORD);
+  const adminTokenHashBuf = Buffer.from(ADMIN_TOKEN_HASH);
+
+  const usernameMatch = usernameBuf.length === adminUsernameBuf.length && crypto.timingSafeEqual(usernameBuf, adminUsernameBuf);
+  const passwordMatch = passwordBuf.length === adminPasswordBuf.length && crypto.timingSafeEqual(passwordBuf, adminPasswordBuf);
+  const tokenMatch = hashBuf.length === adminTokenHashBuf.length && crypto.timingSafeEqual(hashBuf, adminTokenHashBuf);
+
+  return usernameMatch && passwordMatch && tokenMatch;
 }
 
 export function isAuthorizedRequest(req: Request): boolean {

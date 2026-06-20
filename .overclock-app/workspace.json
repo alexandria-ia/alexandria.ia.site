@@ -1,0 +1,10 @@
+{
+  "autoSpawnSquad": null,
+  "favoritePane": {
+    "agent": "claude",
+    "providerId": "alexandria-tech",
+    "model": "HERMES"
+  },
+  "accessMode": "write_external",
+  "authorizedExternalPaths": []
+}

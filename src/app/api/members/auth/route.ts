@@ -36,7 +36,6 @@ export async function GET(req: Request) {
 
   const safeMember = {
     ...member,
-    chatPassword: member.chatPassword || 'alexandria_chat_2026',
     passwordChanged: member.passwordChanged ?? false
   };
 

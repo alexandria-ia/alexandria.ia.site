@@ -6,11 +6,19 @@ import { systemNotifications, SystemNotification } from '@/data/notifications';
 
 interface ActiveNotification extends SystemNotification {
   id: string;
+  isLeft: boolean;
   x: number;
   y: number;
   animationName: string;
   animationDuration: number;
 }
+
+const STATIC_OBSTACLES = [
+  { x: 8, y: 18 },  // OpenAI GPT
+  { x: 5, y: 60 },  // Gemini 1.5
+  { x: 85, y: 26 }, // Claude Sonnet
+  { x: 83, y: 66 }, // DeepSeek V3
+];
 
 export default function FloatingNotifications() {
   const [activeNotifs, setActiveNotifs] = useState<ActiveNotification[]>([]);
@@ -22,29 +30,51 @@ export default function FloatingNotifications() {
 
       let x = 0;
       let y = 0;
+      let isLeft = false;
       let attempts = 0;
       let positionOk = false;
 
-      while (!positionOk && attempts < 15) {
+      while (!positionOk && attempts < 50) {
         attempts++;
-        const isLeft = Math.random() > 0.5;
-        x = isLeft ? (1 + Math.random() * 5) : (86 + Math.random() * 8);
+        isLeft = Math.random() > 0.5;
+        x = isLeft ? 2 : 88;
         y = 12 + Math.random() * 70;
 
         let tooClose = false;
+        
+        // Check against active notifications
         for (const wrap of prev) {
-          const dx = Math.abs(x - wrap.x);
-          const dy = Math.abs(y - wrap.y);
+          const sameSide = isLeft === wrap.isLeft;
+          if (sameSide) {
+            const dy = Math.abs(y - wrap.y);
+            if (dy < 12) {
+              tooClose = true;
+              break;
+            }
+          }
+        }
 
-          if (dx < 25 && dy < 20) {
-            tooClose = true;
-            break;
+        // Check against static obstacles
+        if (!tooClose) {
+          for (const obs of STATIC_OBSTACLES) {
+            const obsIsLeft = obs.x < 50;
+            if (isLeft === obsIsLeft) {
+              const dy = Math.abs(y - obs.y);
+              if (dy < 12) {
+                tooClose = true;
+                break;
+              }
+            }
           }
         }
 
         if (!tooClose) {
           positionOk = true;
         }
+      }
+
+      if (!positionOk) {
+        return prev; // Skip spawning to prevent overlaps
       }
 
       const anims = ['float-slow', 'float-medium', 'float-fast'];
@@ -54,13 +84,14 @@ export default function FloatingNotifications() {
       const newNotif: ActiveNotification = {
         ...template,
         id: `notif-${nextId.current++}`,
+        isLeft,
         x,
         y,
         animationName: randomAnim,
         animationDuration: animDuration,
       };
 
-      const base = prev.length >= 5 ? prev.slice(1) : prev;
+      const base = prev.length >= 4 ? prev.slice(1) : prev;
       return [...base, newNotif];
     });
   };
@@ -79,17 +110,6 @@ export default function FloatingNotifications() {
     return () => clearTimeout(initialTimeout);
   }, []);
 
-  useEffect(() => {
-    if (activeNotifs.length === 0) return;
-
-    const latest = activeNotifs[activeNotifs.length - 1];
-    const timer = setTimeout(() => {
-      setActiveNotifs((prev) => prev.filter((n) => n.id !== latest.id));
-    }, 4500);
-
-    return () => clearTimeout(timer);
-  }, [activeNotifs]);
-
   return (
     <div id="floating-notif-container" className="fixed inset-0 pointer-events-none z-20 select-none overflow-hidden hidden xl:block">
       <AnimatePresence>
@@ -105,6 +125,13 @@ export default function FloatingNotifications() {
 
 function NotificationCard({ notif, onDismiss }: { notif: ActiveNotification; onDismiss: () => void }) {
   const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onDismiss();
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, [onDismiss]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
@@ -156,7 +183,8 @@ function NotificationCard({ notif, onDismiss }: { notif: ActiveNotification; onD
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`absolute pointer-events-auto ${animClass}`}
       style={{
-        left: `${notif.x}vw`,
+        left: notif.isLeft ? `${notif.x}vw` : undefined,
+        right: !notif.isLeft ? `2vw` : undefined,
         top: `${notif.y}vh`,
         animationDuration: `${notif.animationDuration}s`,
       }}

@@ -8,6 +8,8 @@
     "affiliateCode": "TESTE_REF",
     "affiliateInvitesGenerated": 15,
     "affiliateInvitesValidated": 3,
-    "affiliateCredits": 30.00
+    "affiliateCredits": 30,
+    "chatPassword": "mudar123",
+    "passwordChanged": true
   }
 ]

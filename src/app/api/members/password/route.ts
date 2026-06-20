@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     const safeMember = {
       ...members[memberIndex],
-      chatPassword: members[memberIndex].chatPassword,
+      chatPassword: '[REDACTED]',
       passwordChanged: true
     };
 
