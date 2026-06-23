@@ -95,8 +95,9 @@ export default function HeroSection() {
           transition={{ duration: 0.8 }}
           className="inline-flex items-center justify-center text-[10px] font-semibold tracking-[0.22em] text-accent uppercase mb-6 px-4 py-1.5 border border-accent-soft rounded-full bg-accent-soft/30 min-h-[30px]"
         >
-          <span>{currentText}</span>
-          <span className="inline-block w-[1.5px] h-[9px] bg-accent ml-1.5 animate-pulse" />
+          <span className="flex items-center gap-2">
+            <i className="fa-solid fa-comment-dots text-[12px]"></i> Chat · Análise de documentos · Agentes especializados
+          </span>
         </motion.div>
 
         {/* Title */}
@@ -104,10 +105,10 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="font-rework text-[clamp(34px,5.5vw,68px)] font-extrabold leading-[1.0] tracking-[0.04em] uppercase mb-6 bg-gradient-to-br from-white via-white to-accent bg-clip-text text-transparent scale-y-[0.82] origin-center text-center"
+          className="font-rework text-[clamp(34px,5.5vw,68px)] font-extrabold leading-[1.1] tracking-[0.04em] uppercase mb-6 bg-gradient-to-br from-white via-white to-accent bg-clip-text text-transparent scale-y-[0.82] origin-center text-center"
         >
-          A infraestrutura de IA definitiva.<br />
-          <span className="shimmer-gold-text">Todos os modelos em uma única API.</span>
+          IA que lê, analisa<br />
+          <span className="shimmer-gold-text">e responde por você.</span>
         </motion.h1>
 
         {/* Description */}
@@ -115,9 +116,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-[clamp(14px,1.8vw,18px)] text-text-secondary leading-relaxed max-w-[540px] mb-10 text-center mx-auto"
+          className="text-[clamp(14px,1.8vw,16px)] text-text-secondary leading-relaxed max-w-[620px] mb-10 text-center mx-auto"
         >
-          Conecte sua aplicação a uma infraestrutura multi-modelos avançada. Inteligência sem limites sob uma assinatura mensal fixa e previsível.
+          Envie PDFs, contratos, prints ou qualquer documento — o Alexandria entende e responde. Sem custo por token, sem dado sair do servidor, sem mistério.
         </motion.p>
 
         {/* Actions */}
@@ -129,15 +130,15 @@ export default function HeroSection() {
         >
           <a
             href="#pricing"
-            className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.03em] uppercase bg-accent hover:bg-accent-light text-bg-deep px-8 py-3.5 rounded-full shadow-[0_8px_24px_rgba(212,175,90,0.15)] hover:-translate-y-0.5 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.05em] uppercase bg-accent hover:opacity-90 text-bg-deep px-8 py-3.5 rounded-full shadow-[0_8px_24px_rgba(212,175,90,0.15)] transition-all duration-200"
           >
-            Ver planos
+            Garantir minha vaga <i className="fa-solid fa-arrow-right text-[12px]"></i>
           </a>
           <a
-            href="#features"
-            className="inline-flex items-center gap-2 text-[13px] font-medium tracking-[0.03em] uppercase bg-white/5 text-text-primary px-8 py-3.5 rounded-full border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-200"
+            href="/agents"
+            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.05em] uppercase bg-white/5 text-accent px-8 py-3.5 rounded-full border border-accent hover:bg-accent-soft transition-all duration-200"
           >
-            Como funciona
+            Ver agentes <i className="fa-solid fa-robot text-[12px]"></i>
           </a>
         </motion.div>
       </div>

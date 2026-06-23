@@ -1,0 +1,16 @@
+
+> site@0.1.0 dev
+> next dev
+
+[33m[1m⚠[22m[39m Port 3000 is in use by process 32172, using available port 3003 instead.
+[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:3003
+- Network:       http://100.109.76.67:3003
+- Environments: .env
+[32m[1m✓[22m[39m Ready in 581ms
+[33m[1m⚠[22m[39m Slow filesystem detected. The benchmark took 260ms. If F:\VC.VERSE\PROJETOS\Alexandria\site\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+
+ POST /api/admin/auth [33m401[39m in 168ms[2m (next.js: 145ms, application-code: 23ms)[22m
+ POST /api/admin/auth [32m200[39m in 10ms[2m (next.js: 3ms, application-code: 7ms)[22m
+ POST /api/admin/auth [32m200[39m in 8ms[2m (next.js: 3ms, application-code: 6ms)[22m

@@ -1,3 +1,4 @@
+@import url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css');
 @import "tailwindcss";
 
 @theme {
@@ -142,4 +143,36 @@ body {
 .bp-cross-tr { top: 24px; right: 24px; }
 .bp-cross-bl { bottom: 24px; left: 24px; }
 .bp-cross-br { bottom: 24px; right: 24px; }
+
+/* ── BLUEPRINT CARD CORNER BRACKETS ── */
+.blueprint-card {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+.blueprint-card::before, .blueprint-card::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  color: rgba(212, 175, 90, 0.25);
+  pointer-events: none;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+.blueprint-card::before {
+  top: 10px;
+  left: 10px;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+}
+.blueprint-card::after {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+}
+.blueprint-card:hover::before, .blueprint-card:hover::after {
+  color: rgba(212, 175, 90, 0.6);
+}
+
 

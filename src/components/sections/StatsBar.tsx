@@ -81,56 +81,44 @@ export default function StatsBar() {
 
   return (
     <div className="stats border-t border-b border-border-subtle bg-bg-deep/50 py-12 px-6 md:px-12 relative z-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-        {/* Tokens */}
+      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Swarm */}
         <div className="text-center">
-          <div 
-            className="text-[clamp(20px,5vw,36px)] font-rework font-extrabold text-accent transition-all duration-300"
-            style={pulseTokens ? { textShadow: '0 0 20px rgba(212, 175, 90, 0.8), 0 0 35px #D4AF5A' } : undefined}
-          >
-            {fmt(tokens)}
+          <div className="text-[clamp(24px,4vw,32px)] font-rework font-normal text-accent tracking-widest uppercase transform scale-y-[0.85] origin-center">
+            Swarm
           </div>
-          <div className="text-[10px] font-semibold tracking-[0.18em] uppercase text-text-muted mt-1">
-            TOKENS PROCESSADOS
+          <div className="text-[10px] font-semibold tracking-[0.15em] uppercase text-text-secondary mt-2 max-w-[150px] mx-auto leading-normal">
+            Roteamento automático entre modelos
           </div>
         </div>
 
-        {/* Saved */}
+        {/* Agentes */}
         <div className="text-center">
-          <div 
-            className="text-[clamp(20px,5vw,36px)] font-rework font-extrabold text-accent transition-all duration-300"
-            style={pulseTokens ? { textShadow: '0 0 20px rgba(212, 175, 90, 0.8), 0 0 35px #D4AF5A' } : undefined}
-          >
-            {fmt(Math.floor(tokens * 1.6))}
+          <div className="text-[clamp(24px,4vw,32px)] font-rework font-normal text-accent tracking-widest uppercase transform scale-y-[0.85] origin-center">
+            12
           </div>
-          <div className="text-[10px] font-semibold tracking-[0.18em] uppercase text-text-muted mt-1">
-            ECONOMIA GERADA
+          <div className="text-[10px] font-semibold tracking-[0.15em] uppercase text-text-secondary mt-2 max-w-[150px] mx-auto leading-normal">
+            Agentes especializados
           </div>
         </div>
 
-        {/* Subs */}
+        {/* Latência */}
         <div className="text-center">
-          <div 
-            className="text-[clamp(20px,5vw,36px)] font-rework font-extrabold text-accent transition-all duration-300"
-            style={pulseSubs ? { textShadow: '0 0 20px rgba(212, 175, 90, 0.8), 0 0 35px #D4AF5A' } : undefined}
-          >
-            {fmt(subs)}
+          <div className="text-[clamp(24px,4vw,32px)] font-rework font-normal text-accent tracking-widest uppercase transform scale-y-[0.85] origin-center">
+            &lt;1s
           </div>
-          <div className="text-[10px] font-semibold tracking-[0.18em] uppercase text-text-muted mt-1">
-            CONTAS ATIVAS
+          <div className="text-[10px] font-semibold tracking-[0.15em] uppercase text-text-secondary mt-2 max-w-[150px] mx-auto leading-normal">
+            Latência média de resposta
           </div>
         </div>
 
-        {/* Live */}
+        {/* Dados */}
         <div className="text-center">
-          <div 
-            className="text-[clamp(20px,5vw,36px)] font-rework font-extrabold text-accent transition-all duration-300"
-            style={pulseLive ? { textShadow: '0 0 20px rgba(212, 175, 90, 0.8), 0 0 35px #D4AF5A' } : undefined}
-          >
-            {fmt(live)}
+          <div className="text-[clamp(24px,4vw,32px)] font-rework font-normal text-accent tracking-widest uppercase transform scale-y-[0.85] origin-center">
+            100%
           </div>
-          <div className="text-[10px] font-semibold tracking-[0.18em] uppercase text-text-muted mt-1">
-            CONEXÕES AGORA
+          <div className="text-[10px] font-semibold tracking-[0.15em] uppercase text-text-secondary mt-2 max-w-[150px] mx-auto leading-normal">
+            Dados no nosso servidor
           </div>
         </div>
       </div>

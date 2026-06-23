@@ -1,15 +1,17 @@
 import crypto from 'crypto';
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin_alexandria';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'hZOzJCiP5DxeP1ok/0RlQ+r62bv30Zjx';
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'alexandria_token_2026';
-
-const ADMIN_TOKEN_HASH = crypto.createHash('sha256').update(ADMIN_TOKEN).digest('hex');
-const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'c2ea619c619e5eb9fa77222d1208314095fdc6963099f6a965d36027fdf1a9c3';
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
+const ADMIN_TOKEN_HASH = ADMIN_TOKEN ? crypto.createHash('sha256').update(ADMIN_TOKEN).digest('hex') : '';
+const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || '';
 
 export const COOKIE_NAME = 'alexandria_admin_session';
 
 export function signSession(timestamp: string): string {
+  if (!SESSION_SECRET || !ADMIN_USERNAME || !ADMIN_PASSWORD || !ADMIN_TOKEN_HASH) {
+    throw new Error('ADMIN_SESSION_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD e ADMIN_TOKEN devem ser definidos');
+  }
   return crypto.createHmac('sha256', SESSION_SECRET)
     .update(timestamp)
     .update(ADMIN_USERNAME)

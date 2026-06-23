@@ -1,0 +1,19 @@
+
+> site@0.1.0 dev
+> next dev
+
+[33m[1m⚠[22m[39m Port 3000 is in use by process 32172, using available port 3004 instead.
+[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:3004
+- Network:       http://100.109.76.67:3004
+- Environments: .env
+[32m[1m✓[22m[39m Ready in 591ms
+[31m[1m⨯[22m[39m Another [36mnext dev[39m server is already running.
+
+- Local:        [36mhttp://localhost:3003[39m
+- PID:          35852
+- Dir:          F:\VC.VERSE\PROJETOS\Alexandria\site
+- Log:          .next\dev\logs\next-development.log
+
+Run [36mtaskkill /PID 35852 /F[39m to stop it.
+[?25h

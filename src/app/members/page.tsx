@@ -7,7 +7,7 @@ import {
   Mail, Disc, Shield, Key, Compass, Copy, 
   ExternalLink, TrendingUp, Users, DollarSign, 
   HelpCircle, ChevronDown, ChevronUp, Terminal, 
-  Code, LogOut, CheckCircle, Gift, Info, Lock
+  Code, LogOut, CheckCircle, Gift, Info, Lock, X
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -245,6 +245,15 @@ export default function MembersPage() {
               >
                 <div className="relative bg-bg-alt/90 border border-border-card p-8 md:p-10 rounded-[16px] max-w-[450px] w-full shadow-[0_24px_64px_rgba(0,0,0,0.55)] backdrop-blur-[16px]">
                   
+                  {/* Close/Exit button */}
+                  <Link
+                    href="/"
+                    className="absolute top-4 right-4 text-text-muted hover:text-white transition-colors cursor-pointer z-10"
+                    aria-label="Voltar para a Página Inicial"
+                  >
+                    <X size={18} />
+                  </Link>
+
                   {/* Decorative corner lines */}
                   <div className="absolute top-0 left-0 w-8 h-[1px] bg-accent" />
                   <div className="absolute top-0 left-0 w-[1px] h-8 bg-accent" />
@@ -296,6 +305,13 @@ export default function MembersPage() {
                     >
                       {isLoading ? 'Autenticando...' : 'Acessar Área de Membros'}
                     </button>
+
+                    <Link
+                      href="/"
+                      className="text-center text-[10px] text-text-muted hover:text-accent font-bold uppercase tracking-wider transition-colors mt-3"
+                    >
+                      Voltar para a Página Inicial
+                    </Link>
                   </form>
                 </div>
               </motion.div>

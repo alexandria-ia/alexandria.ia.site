@@ -10,10 +10,13 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Recursos', href: '/#features' },
-    { name: 'Planos', href: '/#pricing' },
+    { name: 'Início', href: '/' },
+    { name: 'Agentes', href: '/agents' },
     { name: 'Base de Dados', href: '/database' },
-    { name: 'Membros', href: '/members' },
+    { name: 'Swarm', href: '/#swarm' },
+    { name: 'Memória', href: '/#memoria' },
+    { name: 'Privacidade', href: '/#privacidade' },
+    { name: 'API', href: '/#api-sec' },
   ];
 
   const isActive = (href: string) => {
@@ -63,12 +66,24 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* CTA Button */}
-        <div className="hidden md:block">
+        {/* CTA Buttons */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/admin"
+            className="text-[11px] font-bold tracking-[0.05em] uppercase border border-border-card bg-transparent hover:bg-white/5 text-text-secondary hover:text-text-primary px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"
+          >
+            <i className="fa-solid fa-gear text-[12px]" /> Admin
+          </Link>
+          <Link
+            href="/chat"
+            className="text-[11px] font-bold tracking-[0.05em] uppercase border border-border-card bg-transparent hover:bg-white/5 text-text-secondary hover:text-text-primary px-4 py-2 rounded-lg transition-colors"
+          >
+            Entrar
+          </Link>
           <Link
             href="/#pricing"
             onClick={(e) => handleScroll(e, '/#pricing')}
-            className="text-[12px] font-semibold tracking-[0.04em] uppercase bg-accent hover:bg-accent-light text-bg-deep border border-accent-light/10 px-5 py-2 rounded-full transition-colors"
+            className="text-[11px] font-bold tracking-[0.05em] uppercase bg-accent hover:opacity-90 text-bg-deep px-5 py-2 rounded-lg transition-colors"
           >
             Assinar
           </Link>
@@ -98,10 +113,25 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          <div className="h-[1px] bg-border-subtle my-2" />
+          <Link
+            href="/admin"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[13px] font-semibold tracking-[0.04em] uppercase text-text-secondary hover:text-text-primary flex items-center gap-1.5"
+          >
+            <i className="fa-solid fa-gear text-[14px]" /> Admin
+          </Link>
+          <Link
+            href="/chat"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[13px] font-semibold tracking-[0.04em] uppercase text-text-secondary hover:text-text-primary"
+          >
+            Entrar
+          </Link>
           <Link
             href="/#pricing"
             onClick={(e) => handleScroll(e, '/#pricing')}
-            className="text-[13px] font-semibold tracking-[0.04em] uppercase bg-accent text-bg-deep py-2.5 rounded-full text-center hover:bg-accent-light mt-2 transition-colors"
+            className="text-[13px] font-semibold tracking-[0.04em] uppercase bg-accent text-bg-deep py-2.5 rounded-lg text-center hover:opacity-90 transition-colors"
           >
             Assinar
           </Link>
